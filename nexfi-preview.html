@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexFi — The Future of DeFi</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff88;
+    --green-dim: #00cc6a;
+    --green-dark: #003d1f;
+    --black: #030a06;
+    --black2: #060f08;
+    --card: #0a1a0e;
+    --card2: #0d2012;
+    --border: rgba(0,255,136,0.15);
+    --text: #e8f5ee;
+    --muted: #6b9a7a;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: var(--font-head); overflow-x: hidden; }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(3,10,6,0.92);
+    backdrop-filter: blur(20px);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 800; font-size: 1.3rem; color: var(--text); text-decoration: none; }
+  .logo-icon { width: 32px; height: 32px; background: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--black); font-weight: 800; box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; font-family: var(--font-mono); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .btn-connect { background: transparent; border: 1px solid var(--green); color: var(--green); padding: 9px 20px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.78rem; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em; }
+  .btn-connect:hover { background: var(--green); color: var(--black); }
+  .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 5% 60px; position: relative; z-index: 2; }
+  .hero-glow { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,255,136,0.07) 0%, transparent 70%); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: glowPulse 4s ease-in-out infinite; }
+  @keyframes glowPulse { 0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)} }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,255,136,0.08); border: 1px solid var(--border); padding: 5px 14px; border-radius: 100px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--green); margin-bottom: 28px; letter-spacing: 0.08em; animation: fadeUp 0.8s ease both; }
+  .badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,136,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(0,255,136,0)} }
+  .hero h1 { font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; margin-bottom: 20px; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero h1 .highlight { color: var(--green); position: relative; display: inline-block; }
+  .hero h1 .highlight::after { content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 3px; background: var(--green); opacity: 0.3; }
+  .hero p { max-width: 520px; font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 36px; animation: fadeUp 0.8s 0.2s ease both; font-family: var(--font-mono); }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s 0.3s ease both; }
+  .btn-primary { background: var(--green); color: var(--black); padding: 13px 28px; border: none; border-radius: 6px; font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 0 40px rgba(0,255,136,0.2); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(0,255,136,0.4); }
+  .btn-secondary { background: transparent; color: var(--text); padding: 13px 28px; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-family: var(--font-head); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)} }
+  .stats { position: relative; z-index: 2; padding: 0 5% 70px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-width: 900px; margin: 0 auto; }
+  .stat-item { background: var(--card); padding: 28px 20px; text-align: center; transition: background 0.2s; }
+  .stat-item:hover { background: var(--card2); }
+  .stat-value { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; color: var(--green); font-family: var(--font-mono); display: block; margin-bottom: 4px; }
+  .stat-label { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono); }
+  section { position: relative; z-index: 2; padding: 80px 5%; }
+  .section-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  .section-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .section-sub { color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; max-width: 480px; }
+  .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 20px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .feature-card { background: var(--card); padding: 36px 28px; transition: background 0.3s; position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); opacity: 0; transition: opacity 0.3s; }
+  .feature-card:hover { background: var(--card2); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon { width: 48px; height: 48px; background: rgba(0,255,136,0.1); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 20px; transition: all 0.3s; }
+  .feature-card:hover .feature-icon { background: rgba(0,255,136,0.2); box-shadow: 0 0 16px rgba(0,255,136,0.2); }
+  .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+  .feature-card p { color: var(--muted); font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.7; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .how-step { text-align: center; padding: 36px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; transition: border-color 0.3s, transform 0.3s; }
+  .how-step:hover { border-color: rgba(0,255,136,0.4); transform: translateY(-4px); }
+  .step-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--green); letter-spacing: 0.1em; margin-bottom: 16px; display: block; opacity: 0.7; }
+  .step-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .how-step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+  .how-step p { color: var(--muted); font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.7; }
+  .testimonials { background: var(--black2); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .testi-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: border-color 0.3s, transform 0.3s; }
+  .testi-card:hover { border-color: rgba(0,255,136,0.3); transform: translateY(-4px); }
+  .testi-quote { font-size: 1.8rem; color: var(--green); opacity: 0.4; font-family: Georgia,serif; line-height: 1; margin-bottom: 12px; }
+  .testi-text { color: var(--text); font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.8; margin-bottom: 24px; }
+  .testi-author { display: flex; align-items: center; gap: 10px; }
+  .testi-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--green-dark), var(--green)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: var(--black); flex-shrink: 0; }
+  .testi-name { font-weight: 700; font-size: 0.85rem; margin-bottom: 2px; }
+  .testi-role { color: var(--muted); font-family: var(--font-mono); font-size: 0.7rem; }
+  .stars { color: var(--green); font-size: 0.75rem; margin-bottom: 12px; letter-spacing: 2px; }
+  .faq-list { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 2px; }
+  .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
+  .faq-item:hover { border-color: rgba(0,255,136,0.3); }
+  .faq-q { width: 100%; background: none; border: none; color: var(--text); font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; text-align: left; padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: color 0.2s; }
+  .faq-q:hover { color: var(--green); }
+  .faq-icon { color: var(--green); font-size: 1.1rem; flex-shrink: 0; transition: transform 0.3s; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; padding: 0 24px; color: var(--muted); font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.8; }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
+  .newsletter { background: var(--black2); text-align: center; }
+  .newsletter-box { max-width: 540px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 52px 40px; position: relative; overflow: hidden; }
+  .newsletter-box::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, transparent, var(--green), transparent); }
+  .newsletter-box h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .newsletter-box p { color: var(--muted); font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.7; margin-bottom: 28px; }
+  .newsletter-form { display: flex; gap: 10px; }
+  .newsletter-form input { flex: 1; background: rgba(0,255,136,0.05); border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; color: var(--text); font-family: var(--font-mono); font-size: 0.82rem; outline: none; transition: border-color 0.2s; }
+  .newsletter-form input:focus { border-color: rgba(0,255,136,0.4); }
+  .newsletter-form input::placeholder { color: var(--muted); }
+  .newsletter-form button { background: var(--green); color: var(--black); border: none; border-radius: 6px; padding: 12px 22px; font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .newsletter-form button:hover { box-shadow: 0 0 30px rgba(0,255,136,0.3); transform: translateY(-1px); }
+  footer { position: relative; z-index: 2; padding: 52px 5% 28px; border-top: 1px solid var(--border); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand p { color: var(--muted); font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.8; margin-top: 14px; max-width: 240px; }
+  .footer-col h4 { font-size: 0.75rem; font-family: var(--font-mono); letter-spacing: 0.1em; color: var(--green); text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { color: var(--muted); text-decoration: none; font-family: var(--font-mono); font-size: 0.78rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--green); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { color: var(--muted); font-family: var(--font-mono); font-size: 0.72rem; }
+  .footer-socials { display: flex; gap: 12px; }
+  .footer-socials a { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; font-size: 0.8rem; transition: all 0.2s; }
+  .footer-socials a:hover { border-color: var(--green); color: var(--green); }
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0 5%; position: relative; z-index: 2; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  @media(max-width:900px){
+    .features-grid,.how-grid,.testi-grid{grid-template-columns:repeat(2,1fr)}
+    .footer-top{grid-template-columns:1fr 1fr}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none}
+    .features-grid,.how-grid,.testi-grid{grid-template-columns:1fr}
+    .footer-top{grid-template-columns:1fr;gap:24px}
+    .newsletter-form{flex-direction:column}
+    .newsletter-box{padding:32px 20px}
+    .hero h1{font-size:2.4rem}
+    .hero-btns{flex-direction:column;align-items:center}
+    .btn-primary,.btn-secondary{width:100%;text-align:center}
+    section{padding:60px 5%}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">N</div>
+    NexFi
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="btn-connect" onclick="alert('Connect Wallet!')">[ Connect Wallet ]</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge"><span class="badge-dot"></span>LIVE ON MAINNET — V2.4</div>
+  <h1>The Future of<br><span class="highlight">DeFi</span> is Here</h1>
+  <p>Experience next-generation decentralized finance. Trade, stake, and earn with unprecedented speed and security on NexFi's cutting-edge protocol.</p>
+  <div class="hero-btns">
+    <button class="btn-primary">Get Started →</button>
+    <button class="btn-secondary">▷ Watch Demo</button>
+  </div>
+</section>
+
+<div class="stats reveal">
+  <div class="stats-grid">
+    <div class="stat-item"><span class="stat-value">$2.4B+</span><span class="stat-label">Total Value Locked</span></div>
+    <div class="stat-item"><span class="stat-value">150K+</span><span class="stat-label">Daily Transactions</span></div>
+    <div class="stat-item"><span class="stat-value">500K+</span><span class="stat-label">Active Users</span></div>
+    <div class="stat-item"><span class="stat-value">12+</span><span class="stat-label">Chains Supported</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section id="features">
+  <div class="section-header reveal">
+    <div><span class="section-label">// FEATURES</span><h2 class="section-title">Built for the<br>Next Generation</h2></div>
+    <p class="section-sub">Our protocol combines cutting-edge technology with user-centric design to deliver the ultimate DeFi experience.</p>
+  </div>
+  <div class="features-grid reveal">
+    <div class="feature-card"><div class="feature-icon">⚡</div><h3>Lightning Fast</h3><p>Execute trades in milliseconds with our optimized smart contracts and layer-2 scaling solutions.</p></div>
+    <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Bank-Grade Security</h3><p>Multi-sig wallets, audited contracts, and real-time monitoring keep your assets protected 24/7.</p></div>
+    <div class="feature-card"><div class="feature-icon">🌐</div><h3>Fully Decentralized</h3><p>No middlemen, no single points of failure. True ownership through our DAO with on-chain voting.</p></div>
+    <div class="feature-card"><div class="feature-icon">💎</div><h3>High Yield Staking</h3><p>Earn up to 28% APY on your assets through our battle-tested liquidity pools and strategies.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔄</div><h3>Cross-Chain Swaps</h3><p>Seamlessly swap assets across 12+ blockchains in a single transaction with best rates guaranteed.</p></div>
+    <div class="feature-card"><div class="feature-icon">📊</div><h3>Advanced Analytics</h3><p>Real-time portfolio tracking, PnL analysis, and market insights powered by on-chain data.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="how">
+  <div class="section-header reveal" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+    <span class="section-label">// HOW IT WORKS</span>
+    <h2 class="section-title">Three Steps to<br>Financial Freedom</h2>
+  </div>
+  <div class="how-grid reveal">
+    <div class="how-step"><span class="step-num">STEP 01</span><span class="step-icon">🔗</span><h3>Connect Your Wallet</h3><p>Link MetaMask, WalletConnect, or any Web3 wallet in seconds. No account needed.</p></div>
+    <div class="how-step"><span class="step-num">STEP 02</span><span class="step-icon">💰</span><h3>Deposit & Choose Strategy</h3><p>Deposit any supported asset and pick your preferred DeFi strategy — trading, staking, or yield farming.</p></div>
+    <div class="how-step"><span class="step-num">STEP 03</span><span class="step-icon">🚀</span><h3>Earn & Withdraw Anytime</h3><p>Watch your portfolio grow in real-time. Withdraw at any moment — no lock-ups, no delays.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="testimonials" class="testimonials">
+  <div class="section-header reveal" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+    <span class="section-label">// TESTIMONIALS</span>
+    <h2 class="section-title">Trusted by Thousands<br>of DeFi Traders</h2>
+  </div>
+  <div class="testi-grid reveal">
+    <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-quote">"</div><p class="testi-text">NexFi completely changed how I interact with DeFi. The speed is insane and I've never had a security issue in 2 years. My portfolio grew 3x.</p><div class="testi-author"><div class="testi-avatar">AK</div><div><div class="testi-name">Alex Kim</div><div class="testi-role">DeFi Trader · Seoul, Korea</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-quote">"</div><p class="testi-text">The cross-chain swaps work flawlessly. I used to spend hours bridging assets — now it takes 30 seconds. The analytics dashboard is incredible.</p><div class="testi-author"><div class="testi-avatar">SR</div><div><div class="testi-name">Sarah Rodriguez</div><div class="testi-role">Crypto Investor · Miami, USA</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-quote">"</div><p class="testi-text">As a developer, I appreciate the clean architecture and robust API. Building on top of NexFi was straightforward. The team is super responsive.</p><div class="testi-author"><div class="testi-avatar">MB</div><div><div class="testi-name">Marcus Becker</div><div class="testi-role">Blockchain Dev · Berlin, Germany</div></div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="faq">
+  <div class="section-header reveal" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+    <span class="section-label">// FAQ</span>
+    <h2 class="section-title">Got Questions?<br>We've Got Answers.</h2>
+  </div>
+  <div class="faq-list reveal">
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What is NexFi and how does it work?<span class="faq-icon">+</span></button><div class="faq-a">NexFi is a decentralized finance protocol that lets you trade, stake, and earn yield on your crypto assets without relying on centralized intermediaries. Connect your wallet and start earning — it's that simple.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is NexFi safe to use?<span class="faq-icon">+</span></button><div class="faq-a">Yes. Our smart contracts have been audited by three independent security firms including CertiK and Trail of Bits. We maintain a $50M insurance fund to protect user assets.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What wallets are supported?<span class="faq-icon">+</span></button><div class="faq-a">We support MetaMask, WalletConnect, Coinbase Wallet, Rainbow, and Phantom. Any EVM-compatible wallet will work seamlessly with NexFi.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Are there any fees?<span class="faq-icon">+</span></button><div class="faq-a">NexFi charges a 0.1% trading fee — one of the lowest in the industry. Staking and yield farming have zero platform fees.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I withdraw my funds at any time?<span class="faq-icon">+</span></button><div class="faq-a">Absolutely. NexFi is fully non-custodial. Your assets are always under your control — no lock-up periods, no withdrawal restrictions.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="newsletter" class="newsletter">
+  <div class="newsletter-box reveal">
+    <span class="section-label" style="display:block;margin-bottom:10px;">// STAY UPDATED</span>
+    <h2>Join the NexFi<br>Revolution</h2>
+    <p>Get latest updates on new features, protocol upgrades, and exclusive early access to new DeFi products.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="your@email.com" />
+      <button onclick="alert('Subscribed! Welcome to NexFi 🚀')">Subscribe →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo"><div class="logo-icon">N</div>NexFi</a>
+      <p>Building the future of decentralized finance, one block at a time. Non-custodial, permissionless, open to all.</p>
+    </div>
+    <div class="footer-col"><h4>Product</h4><ul><li><a href="#">Features</a></li><li><a href="#">Roadmap</a></li><li><a href="#">Pricing</a></li><li><a href="#">Changelog</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="#">Documentation</a></li><li><a href="#">API Reference</a></li><li><a href="#">Tutorials</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 NexFi Protocol. All rights reserved.</p>
+    <div class="footer-socials"><a href="#">𝕏</a><a href="#">in</a><a href="#">gh</a><a href="#">dc</a></div>
+    <p><a href="#" style="color:var(--muted);text-decoration:none;">Privacy</a> · <a href="#" style="color:var(--muted);text-decoration:none;">Terms</a></p>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
